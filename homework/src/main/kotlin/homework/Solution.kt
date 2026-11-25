@@ -16,21 +16,35 @@ class Book(
     val id: Int,
     val title: String,
     val author: String,
-    val genre: Genre = Genre.FANTASY,
+    val genre: Genre = Genre.FANTASY
 ) {
     var isAvailable: Boolean = true
         private set
 
     init {
-        TODO()
+        require(id > 0)
+        require(title.isNotBlank())
+        require(author.isNotBlank())
     }
 
     fun borrow(): Boolean {
-        TODO()
+        if (!isAvailable) {
+            return false
+        }
+        isAvailable = false
+        return true
     }
 
     fun returnToLibrary(): Boolean {
-        TODO()
+        if (isAvailable) {
+            return false
+        }
+        isAvailable = true
+        return true
+    }
+
+    fun info(): BookInfo {
+        return BookInfo(title, author, genre)
     }
 }
 
