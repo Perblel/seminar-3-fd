@@ -94,7 +94,7 @@ class Library(private val books: Array<Book>, private val notifier: Notifier) {
     fun borrowBook(id: Int): Boolean {
         for (book in books) {
             if (book.id == id && book.borrow()) {
-                notifier.send("Выдана книга: $book.title")
+                notifier.send("Выдана книга: ${book.title}")
                 return true
             }
         }
@@ -113,7 +113,7 @@ class Library(private val books: Array<Book>, private val notifier: Notifier) {
 
     fun availableCount(): Int {
         var count = 0
-        for (book in books {
+        for (book in books) {
             if (book.isAvailable) {
                 count++
             }
@@ -132,5 +132,18 @@ class Library(private val books: Array<Book>, private val notifier: Notifier) {
     }
 
     fun report(): String {
-        # сделать
+        if (books.isEmpty()) {
+            return "Библиотека пуста"
+        }
+
+        var result = ""
+        for (book in books) {
+            if (result.isNotEmpty()) {
+                result += "\n"
+            }
+            val status = if (book.isAvailable) "доступна" else "выдана"
+            result += "${book.id}. ${book.title} — ${book.author}: $status"
+        }
+        return result
+    }
 }
